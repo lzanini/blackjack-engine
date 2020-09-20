@@ -1,0 +1,10 @@
+To install the tools needed to develop and run tests:
+
+pip install -e .[dev]
+
+To build and publish:
+
+1. Delete the build, dist, and <package name>.egg-info folders in the root directory.
+2. Change version in setup.py
+3. python setup.py bdist_wheel sdist
+4. twine upload dist/*
