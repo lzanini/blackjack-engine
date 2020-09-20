@@ -10,7 +10,7 @@ simulation.register_player(name="Bob",
                            betting_strategy=ConstantBetting(),
                            playing_strategy=RandomPlay())
 
-history = simulation.run(nb_rounds=100_000)
+history = simulation.run(nb_rounds=100000)
 print("Bob's total bets:", sum(history["Bob"]["bets"]))
 print("Bob's total gains:", sum(history["Bob"]["gains"]))
 
