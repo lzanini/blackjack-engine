@@ -99,48 +99,42 @@ history = simulation.run(nb_rounds=1, verbose=True)
 ```
 
 ```
-
     ~~~~~~~  |  New Round  |  ~~~~~~~
 
 Players' bets:
   Bob: 1
 
-Dealer's hand: [K] + one card face down
+Dealer's hand: [8] + one card face down
 
 --- Player's turn: Bob ---
 
-Playing hand n°1: [7, 7]
-
-  Available actions: ['stand', 'hit', 'double', 'split']
-  Chosen action: split
-  New hands: [[7, 5], [7, 3]]
-  Current hand: [7, 5]
+Playing hand n°1: [4, 2]
 
   Available actions: ['stand', 'hit', 'double']
-  Chosen action: double
-  Final hand: [7, 5, 8]
+  Chosen action: hit
+  Current hand: [4, 2, 7]
 
-Playing hand n°2: [7, 3]
+  Available actions: ['stand', 'hit']
+  Chosen action: hit
+  Current hand: [4, 2, 7, 3]
 
-  Available actions: ['stand', 'hit', 'double']
-  Chosen action: stand
-  Final hand: [7, 3]
+  Available actions: ['stand', 'hit']
+  Chosen action: hit
+  Final hand: [4, 2, 7, 3, 5]
 
 --- Dealer's turn ---
 
-  Returning card face down: [K, 6]
+  Returning face down card: [8, 2]
 
   Chosen Action: hit
-  Current hand: [K, 6, Q]
+  Current hand: [8, 2, Q]
 
   Chosen Action: stand
-  Final hand: [K, 6, Q]
+  Final hand: [8, 2, Q]
 
 --- Evaluation phase ---
 
   Player: Bob
-    (bet=2) [7, 5, 8] vs dealer's [K, 6, Q] -> gains=2
-    (bet=1) [7, 3] vs dealer's [K, 6, Q] -> gains=1
-  Total gains of Bob: 3
-  
+    (bet=1) [4, 2, 7, 3, 5] vs dealer's [8, 2, Q] -> gains=1
+  Total gains of Bob: 1
 ```

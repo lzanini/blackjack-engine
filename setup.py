@@ -11,7 +11,7 @@ setup(
     license='MIT',
     keywords='python blackjack engine strategy ai',
     url='https://github.com/lzanini/blackjack-engine',
-    version='0.1.4',
+    version='0.1.6',
     description='A flexible blackjack game engine, allowing to easily implement and evaluate strategies.',
     long_description=long_description,
     long_description_content_type="text/markdown",
