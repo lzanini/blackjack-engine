@@ -93,7 +93,9 @@ simulation = BlackjackSimulation(nb_decks=1,
                                  double_after_split=True,
                                  hit_soft_17=True)
 
-simulation.register_player("Bob",  betting_strategy=betting_strategy, playing_strategy=playing_strategy)
+simulation.register_player("Bob",  
+                           betting_strategy=betting_strategy, 
+                           playing_strategy=playing_strategy)
                         
 history = simulation.run(nb_rounds=1, verbose=True)
 ```
