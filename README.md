@@ -54,7 +54,7 @@ class HiLowBetting(BaseBettingStrategy):
             running_count += cards_delt[card]
         for card in ['2', '3', '4', '5', '6']:
             running_count -= cards_delt[card]
-        remaining_decks = sum(remaining_cards) / 52
+        remaining_decks = sum(remaining_cards.values()) / 52
         true_count = running_count / remaining_decks
         return max(self.betting_unit, self.betting_unit * (true_count - 1))
  

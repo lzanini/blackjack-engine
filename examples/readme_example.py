@@ -5,7 +5,13 @@ from blackjack_engine.strategy import BaseBettingStrategy
 from blackjack_engine.strategy import BasePlayingStrategy
 
 
-simulation = BlackjackSimulation(nb_decks=4, penetration=0.5)
+from blackjack_engine.simulation import BlackjackSimulation
+from blackjack_engine.strategy import RandomPlay
+from blackjack_engine.strategy import ConstantBetting
+
+simulation = BlackjackSimulation(nb_decks=4,
+                                 penetration=0.5)
+
 simulation.register_player(name="Bob",
                            betting_strategy=ConstantBetting(),
                            playing_strategy=RandomPlay())
@@ -16,22 +22,22 @@ print("Bob's total gains:", sum(history["Bob"]["gains"]))
 
 
 class HiLowBetting(BaseBettingStrategy):
-    def __init__(self, betting_unit, max_spread):
+    def __init__(self, betting_unit):
         self.betting_unit = betting_unit
-        self.max_spread = max_spread
 
     def declare_bet(self, cards_delt, remaining_cards):
-        # cards_delt[0] countains the number of delt Aces, cards_delt[1] the number of 2's
-        # ...and cards_delt[12] the number of Kings.
-        remaining_decks = sum(remaining_cards) / 52
-        running_count = sum(cards_delt[1:6]) - sum(cards_delt[9:]) - cards_delt[0]
+        """ Cards 2 to 6 decrease the running count by 1, and cards 10 to A increase it by 1. """
+        running_count = 0
+        for card in ['10', 'J', 'Q', 'K', 'A']:
+            running_count += cards_delt[card]
+        for card in ['2', '3', '4', '5', '6']:
+            running_count -= cards_delt[card]
+        remaining_decks = sum(remaining_cards.values()) / 52
         true_count = running_count / remaining_decks
-        if true_count >= 2:
-            return min(self.betting_unit * self.max_spread, self.betting_unit * (true_count - 1))
-        return self.betting_unit
+        return max(self.betting_unit, self.betting_unit * (true_count - 1))
 
 
-betting_strategy = HiLowBetting(betting_unit=1, max_spread=5)
+betting_strategy = HiLowBetting(betting_unit=1)
 
 
 class MyStrategy(BasePlayingStrategy):
