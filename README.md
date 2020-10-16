@@ -48,7 +48,7 @@ class HiLowBetting(BaseBettingStrategy):
         self.betting_unit = betting_unit
 
     def declare_bet(self, cards_delt, remaining_cards):
-        """ Cards 2 to 6 decrease the runing count, and cards 10 to A increase it. """
+        """ Cards 2 to 6 decrease the running count by 1, and cards 10 to A increase it by 1. """
         running_count = 0
         for card in ['10', 'J', 'Q', 'K', 'A']:
             running_count += cards_delt[card]
@@ -58,7 +58,7 @@ class HiLowBetting(BaseBettingStrategy):
         true_count = running_count / remaining_decks
         return max(self.betting_unit, self.betting_unit * (true_count - 1))
  
-betting_strategy = HiLowBetting(betting_unit=1, max_spread=5)
+betting_strategy = HiLowBetting(betting_unit=1)
 ```
 
 ### Playing strategy
