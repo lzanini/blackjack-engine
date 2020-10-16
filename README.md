@@ -1,4 +1,4 @@
-The goal of this project is to provide a flexible Blackjack engine in Python, allowing to easily define and evaluate custom strategies.
+The goal of this project is to provide a flexible Blackjack engine, allowing to easily define and evaluate custom strategies.
 
 ## Installation
 
@@ -13,7 +13,9 @@ from blackjack_engine.simulation import BlackjackSimulation
 from blackjack_engine.strategy import RandomPlay
 from blackjack_engine.strategy import ConstantBetting
 
-simulation = BlackjackSimulation(nb_decks=4, penetration=0.5)
+simulation = BlackjackSimulation(nb_decks=4, 
+                                 penetration=0.5)
+
 simulation.register_player(name="Bob", 
                            betting_strategy=ConstantBetting(), 
                            playing_strategy=RandomPlay())
@@ -33,35 +35,37 @@ Bob's total gains: -43539.5
 
 ### Betting strategy
 
-The betting strategy of a player consists in choosing the amount of money to bet for the next hand, before the cards are delt. Here is an exemple showing how to implement the [Hi-Low](https://www.instructables.com/id/Card-Counting-and-Ranging-Bet-Sizes/) betting strategy.
+The betting strategy of a player consists in choosing the amount of money to bet for the next hand, before the cards are delt. To chose his bet amount, the player has access to the set of cards that were delt since the last shuffing of the shoe, and to the set of remaining cards in the shoe. 
+
+Below is an exemple showing how to implement the [Hi-Low](https://www.instructables.com/id/Card-Counting-and-Ranging-Bet-Sizes/) betting strategy.
 
 ```python
 from blackjack_engine.strategy import BaseBettingStrategy
 
 
 class HiLowBetting(BaseBettingStrategy):
-    def __init__(self, betting_unit, max_spread):
+    def __init__(self, betting_unit):
         self.betting_unit = betting_unit
-        self.max_spread = max_spread
 
     def declare_bet(self, cards_delt, remaining_cards):
-        # cards_delt[0] countains the number of delt Aces, cards_delt[1] the number of 2's
-        # ...and cards_delt[12] the number of Kings.
+        """ Cards 2 to 6 decrease the runing count, and cards 10 to A increase it. """
+        running_count = 0
+        for card in ['10', 'J', 'Q', 'K', 'A']:
+            running_count += cards_delt[card]
+        for card in ['2', '3', '4', '5', '6']:
+            running_count -= cards_delt[card]
         remaining_decks = sum(remaining_cards) / 52
-        running_count = sum(cards_delt[1:6]) - sum(cards_delt[9:]) - cards_delt[0]
         true_count = running_count / remaining_decks
-        if true_count >= 2:
-            return min(self.betting_unit * self.max_spread, self.betting_unit * (true_count - 1))
-        return self.betting_unit
+        return max(self.betting_unit, self.betting_unit * (true_count - 1))
  
 betting_strategy = HiLowBetting(betting_unit=1, max_spread=5)
 ```
 
-Note that to chose his bet amount, the player has access to the set of cards that were delt since the last shuffing of the shoe, and therefore to the set of remaining cards in the shoe.
-
 ### Playing strategy
 
-The playing strategy consists in choosing, during a player's turn, which action to pick among all actions available. Here is an exemple of a playing strategy, in which the player chooses to always split his pairs of Aces, always double down on 11, and otherwise hit until reaching a hard 17+ or a soft 18+.
+The playing strategy consists in choosing, during a player's turn, which action to pick among available actions. 
+
+Below is an exemple of a playing strategy, in which the player chooses to always split his pairs of Aces, always double down on 11, and otherwise hit until reaching a hard 17+ or a soft 18+.
 
 ```python
 from blackjack_engine.strategy import BasePlayingStrategy
@@ -84,7 +88,7 @@ playing_strategy = MyStrategy()
 
 ## Simulating hands
 
-Once the betting and playing strategies are defined, one can run a simulation as demonstrated in the [Quickstart](https://github.com/lzanini/blackjack-engine/blob/master/README.md#quickstart) section. Below are all the parameters available at the moment when running a simulation:
+Once the betting and playing strategies are defined, you can run a simulation as demonstrated in the [Quickstart](https://github.com/lzanini/blackjack-engine/blob/master/README.md#quickstart) section. Below are all the simulationparameters available:
 
 ```python
 simulation = BlackjackSimulation(nb_decks=1,
