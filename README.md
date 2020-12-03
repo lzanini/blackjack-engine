@@ -88,7 +88,7 @@ playing_strategy = MyStrategy()
 
 ## Simulating hands
 
-Once the betting and playing strategies are defined, you can run a simulation as demonstrated in the [Quickstart](https://github.com/lzanini/blackjack-engine/blob/master/README.md#quickstart) section. Below are all the simulationparameters available:
+Once the betting and playing strategies are defined, you can run a simulation as demonstrated in the [Quickstart](https://github.com/lzanini/blackjack-engine/blob/master/README.md#quickstart) section. Below are all the simulation parameters available:
 
 ```python
 simulation = BlackjackSimulation(nb_decks=1,
