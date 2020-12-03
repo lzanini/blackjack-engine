@@ -1,4 +1,4 @@
-The goal of this project is to provide a flexible Blackjack engine, allowing to easily define and evaluate custom Betting and Playing strategies.
+This library provides a flexible Blackjack engine, allowing to easily define and evaluate custom strategies.
 
 ## Installation
 
